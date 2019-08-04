@@ -7,13 +7,10 @@ import MobileMenu from 'components/Header/MobileMenu/MobileMenu'
 import DesktopMenu from 'components/Header/DesktopMenu/DesktopMenu'
 import UserSubmenu from 'components/Header/UserSubmenu/UserSubmenu'
 import { setLogIn } from 'store/actions/actions'
-import { Link, withRouter } from "react-router-dom";
-import axios from 'axios';
-import * as URL from 'assets/urls.js'
+import { Link } from "react-router-dom";
 import cookie from 'react-cookies'
 
-import './Header.scss'
-import logoImg from 'assets/LA_long.svg';
+import logoImg from 'assets/logo_placeholder.svg';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -89,7 +86,7 @@ const Header = ({ setLoginFalse, isLoggedIn, ...props }) => {
     setLoginFalse();
   }
   
-  const username = 'Kuba Z.'
+  const username = 'Wersja demo'
 
   return (
     <>

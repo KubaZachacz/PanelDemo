@@ -92,12 +92,10 @@ const Treatments = ({ setFormData, clientUID, customerStats, updateCustomerStats
 
   const [tableData, setTableData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [clearFormTrigger, setClearFormTrigger] = React.useState(false);
   const [isExpanded, setExpanded] = React.useState(true);
-  const timer = React.useRef();
-  const ref = React.createRef()
 
-  const { TreatmentCount, TreatmentDoneCount, DoneTreatmentCost, TreatmentCost} = customerStats
+
+  const { TreatmentCount, TreatmentDoneCount, DoneTreatmentCost, TreatmentCost } = customerStats
 
   const updateColumnData = async () => {
     setIsLoading(true)
@@ -115,17 +113,9 @@ const Treatments = ({ setFormData, clientUID, customerStats, updateCustomerStats
 
   const [open, setOpen] = React.useState(false);
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
-
   const handleClose = value => {
     setOpen(false);
   };
-
-  const handleSubmit = () => {
-    // your submit logic
-  }
 
   const handleAddClick = e => {
     setOpen(true);
@@ -134,9 +124,10 @@ const Treatments = ({ setFormData, clientUID, customerStats, updateCustomerStats
   }
 
   const rowClickHandler = (e, rowData) => {
-    const tempFormData = { ...rowData, 
-      WasTreatmentDone : rowData.IsTreatmentDone,
-      WasTreatmentCanceled : rowData.IsTreatmentCancel,
+    const tempFormData = {
+      ...rowData,
+      WasTreatmentDone: rowData.IsTreatmentDone,
+      WasTreatmentCanceled: rowData.IsTreatmentCancel,
     }
     setFormData(tempFormData);
     setOpen(true);
@@ -144,7 +135,7 @@ const Treatments = ({ setFormData, clientUID, customerStats, updateCustomerStats
 
   const formSaveHandler = () => {
     updateColumnData();
-    clientUID&&updateCustomerStats(clientUID);
+    clientUID && updateCustomerStats(clientUID);
     updateCalendar();
   }
 
@@ -167,7 +158,7 @@ const Treatments = ({ setFormData, clientUID, customerStats, updateCustomerStats
           <Typography className={classes.secondaryHeading}>Zapłacone: {DoneTreatmentCost}/{TreatmentCost}zł</Typography>
         </div>
         <div className={classes.column}>
-          <Tooltip title="Dodaj nowy zabieg"><IconButton className={classes.headingButton} size='small' onClick={(e) => handleAddClick(e)}><Add/> </IconButton></Tooltip>
+          <Tooltip title="Dodaj nowy zabieg"><IconButton className={classes.headingButton} size='small' onClick={(e) => handleAddClick(e)}><Add /> </IconButton></Tooltip>
         </div>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className={classes.details}>
@@ -193,7 +184,7 @@ const Treatments = ({ setFormData, clientUID, customerStats, updateCustomerStats
             localization={tablesLocalization}
           />
           : null}
-        <TreatmentModal open={open} onClose={handleClose} refreshOnSave={formSaveHandler}/>
+        <TreatmentModal open={open} onClose={handleClose} refreshOnSave={formSaveHandler} />
       </ExpansionPanelDetails>
       <Divider />
     </ExpansionPanel>

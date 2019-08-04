@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, MenuItem, Tooltip, InputBase, Paper, IconButton, Box, Divider } from '@material-ui/core';
+import { MenuItem, Tooltip, InputBase, Paper, IconButton, Box, Divider } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { PersonAdd } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +8,7 @@ import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import deburr from 'lodash/deburr';
 import axios from 'axios';
+import * as URL from 'assets/urls.js'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -74,8 +75,6 @@ const emptySuggestionsList = [
 
 const INPUT_LENGTH_TO_SEARCH = 2;
 
-const URL_CLIENTS_SEARCH = 'http://127.0.0.1:3000/_api/clients/search/';
-
 // \/ ACTUAL COMPONENT \/ :)
 
 const SearchBar = ({ className, addCustomer, onSearch, isNoUser }) => {
@@ -99,19 +98,28 @@ const SearchBar = ({ className, addCustomer, onSearch, isNoUser }) => {
   };
 
   const handleChange = (event, { newValue }) => {
-    if (newValue.length === INPUT_LENGTH_TO_SEARCH) {
+    if (newValue.length === INPUT_LENGTH_TO_SEARCH ) {
       // HTTP REQUEST
-      axios.get(URL_CLIENTS_SEARCH + newValue)
-        .then(res => {
-          const newSuggiestionsList = [...emptySuggestionsList]
-          newSuggiestionsList[0].suggestions = [...res.data.NameList];
-          newSuggiestionsList[1].suggestions = [...res.data.PhoneList];
-          newSuggiestionsList[2].suggestions = [...res.data.EmailList];
-
-        })
+      // axios.get(URL.clientsSearch + newValue)
+      //   .then(res => {
+      //     const newSuggiestionsList = [...emptySuggestionsList]
+      //     newSuggiestionsList[0].suggestions = [...res.data.NameList];
+      //     newSuggiestionsList[1].suggestions = [...res.data.PhoneList];
+      //     newSuggiestionsList[2].suggestions = [...res.data.EmailList];
+      //   })
     }
     setValue(newValue)
   };
+
+  React.useEffect(()=>{
+    axios.get(URL.clientsSearch)
+    .then(res => {
+      const newSuggiestionsList = [...emptySuggestionsList]
+      newSuggiestionsList[0].suggestions = [...res.data.NameList];
+      newSuggiestionsList[1].suggestions = [...res.data.PhoneList];
+      newSuggiestionsList[2].suggestions = [...res.data.EmailList];
+    })
+  },[])
 
   function getSuggestionValue(suggestion) {
     return suggestion.Searched;
@@ -133,8 +141,7 @@ const SearchBar = ({ className, addCustomer, onSearch, isNoUser }) => {
         {...other}
         onKeyPress={(event) => {
           if (event.key === 'Enter') {
-            console.log(suggestionObject)
-            if (suggestionObject.UID) onSearch(value);
+            // if (suggestionObject.UID) onSearch(suggestionObject.UID);
             event.preventDefault();
           }
         }}
@@ -174,7 +181,7 @@ const SearchBar = ({ className, addCustomer, onSearch, isNoUser }) => {
 
     let outputSuggiestions = []
 
-    if (inputLength > INPUT_LENGTH_TO_SEARCH) {
+    if (inputLength >= INPUT_LENGTH_TO_SEARCH) {
       outputSuggiestions = suggestionsList.map(section => {
         return {
           title: section.title,
@@ -230,10 +237,9 @@ const SearchBar = ({ className, addCustomer, onSearch, isNoUser }) => {
           inputProps={{
             classes,
             id: 'autosuggest-search-bar',
-            placeholder: "Wyszukaj klienta",
+            placeholder: "Wyszukaj Anna lub Jan",
             value: value,
             onChange: handleChange,
-            // onSearch: (() => onSearch(state.single))
           }}
           theme={{
             container: classes.container,
@@ -248,7 +254,7 @@ const SearchBar = ({ className, addCustomer, onSearch, isNoUser }) => {
           )}
         />
         <Tooltip title="Wyszukaj">
-          <IconButton onClick={() => onSearch(value)} className={classes.iconButton} aria-label="Search">
+          <IconButton className={classes.iconButton} aria-label="Search">
             <SearchIcon />
           </IconButton>
         </Tooltip>

@@ -70,12 +70,13 @@ const MainPage = ({ setFormData, formsStateCopy }) => {
   }
 
   const searchHandler = (UID) => {
+    console.log(URL.clients + '/' + UID)
     axios.get(URL.clients + '/' + UID)
       .then(res => {
         if (res.data) {
           const customerData = {
             ...res.data,
-            Birthday: res.data.Birthday.slice(0, 10)
+            Birthday: res.data.Birthday?res.data.Birthday.slice(0, 10):0
           }
           setFormData('customerForm', customerData);
         }

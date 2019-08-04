@@ -4,10 +4,10 @@ const defaultValues = {
     customerForm: {
         FirstName: '',
         LastName: '',
-        Birthday: '1999-03-22',
+        Birthday: '',
         Group: 1,
-        PhoneNumber: '666',
-        Email: 'dupa@gmail.com',
+        PhoneNumber: '',
+        Email: '',
         Company: '',
         TaxNumber: '',
         PromotialInfoAgreement: false
@@ -37,7 +37,7 @@ const initState = {
     areFormsEdited: {},
     customerStats: {},
     calendarEvents: [],
-    isLoggedIn: false,
+    isLoggedIn: true,
     refreshTreatmentTable: null
 }
 
@@ -97,7 +97,7 @@ const reducer = (state = { ...initState }, action) => {
                 newState[action.table] = [...newState[action.table]]
                 newState[action.table][action.id][action.field] = action.value
                 const areFormsEdited = { ...newState.areFormsEdited }
-                const isFormEdited = [ ...areFormsEdited[action.table]] 
+                const isFormEdited = [...areFormsEdited[action.table]]
                 isFormEdited[action.id] = action.value != state.formsStateCopy[action.table][action.id][action.field]
                 areFormsEdited[action.table] = isFormEdited
                 newState.areFormsEdited = areFormsEdited
@@ -109,7 +109,8 @@ const reducer = (state = { ...initState }, action) => {
                 ...state,
                 refreshTreatmentTableFn: action.fn
             }
+        default:
+            return state;
     }
-    return state;
 }
 export default reducer;

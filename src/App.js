@@ -9,14 +9,15 @@ import { orange, blue } from '@material-ui/core/colors';
 import { withRouter } from 'react-router-dom'
 import Header from 'containers/Header/Header';
 import MainPage from 'containers/MainPage/MainPage'
-import AdminPage from 'containers/AdminPage/AdminPage'
-import LoginPage from 'containers/LoginPage/LoginPage'
+// import AdminPage from 'containers/AdminPage/AdminPage'
+// import LoginPage from 'containers/LoginPage/LoginPage'
 import { setLogIn } from 'store/actions/actions'
 import { Switch, Route, Redirect } from "react-router-dom";
 import axios from 'axios'
-import cookie from 'react-cookies'
+import axiosMockups from 'assets/axiosMockups';
 import './App.scss';
 
+axiosMockups();
 
 axios.interceptors.request.use(function (config) {
   // Do something before request is sent
@@ -44,11 +45,6 @@ const theme = createMuiTheme({
     secondary: blue,
     // type: 'dark'
   },
-  // typography: {
-  //   fontFamily: [
-  //     '"Poiret One", cursive;',
-  //   ].join(','),
-  // },
 });
 
 const useStyles = makeStyles(theme => ({
@@ -57,40 +53,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const authToken = cookie.load("x-access-token");
-
-if (authToken) {
-  axios.defaults.headers.common['x-access-token'] = authToken;
-}
-
 
 const App = withRouter(({ history, setLoginTrue, isLoggedIn }) => {
   const classes = useStyles();
-
-  useEffect(() => {
-    const lvlToken = cookie.load("user-lvl");
-    if (lvlToken) {
-      setLoginTrue(lvlToken)
-      history.push('/')
-    }
-  }, [])
-
-  function PrivateRoute({ component: Component, ...rest }) {
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          isLoggedIn ? (
-            <Component {...props} />
-          ) : (
-              <Redirect
-                to="/login"
-              />
-            )
-        }
-      />
-    );
-  }
 
   return (
 
@@ -100,12 +65,12 @@ const App = withRouter(({ history, setLoginTrue, isLoggedIn }) => {
           <Header />
           <Toolbar /> {/*Do nothing - just adds some space*/}
           <Switch>
-            <PrivateRoute exact path="/"
+            <Route exact path="/"
               component={MainPage} />
-            <PrivateRoute exact path="/admin"
+            {/* <PrivateRoute exact path="/admin"
               component={AdminPage} />
             <Route exact path="/login"
-              component={LoginPage} />
+              component={LoginPage} /> */}
           </Switch>
         </Paper>
       </div>

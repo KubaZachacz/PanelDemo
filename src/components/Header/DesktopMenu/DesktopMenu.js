@@ -17,6 +17,7 @@ const DesktopMenu = ({ username, onLogout, handleProfileMenuOpen, ...props }) =>
 
     <Tooltip title="Admin panel">
       <IconButton color="inherit"
+        disabled
         component={Link} to="/admin"
       >
         <Assignment />
@@ -36,6 +37,7 @@ const DesktopMenu = ({ username, onLogout, handleProfileMenuOpen, ...props }) =>
 
     <Tooltip title="Wyloguj się">
       <IconButton color="inherit"
+        disabled
         onClick={onLogout}
       >
         <PowerSettingsNew />

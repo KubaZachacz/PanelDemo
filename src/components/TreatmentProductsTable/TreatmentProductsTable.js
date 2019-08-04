@@ -2,11 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MaterialTable from 'material-table';
 import tablesLocalization from 'assets/tablesLocalization.js';
-// import {InputFieldNumber} from 'components/CustomTable/Inputs'
-import { Table, TableBody, TableCell, TableHead, TableRow, Box } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { TextValidator } from 'react-material-ui-form-validator';
 import { errorTexts } from 'assets/errorTexts'
-//import './TreatmentProductsTable.scss';
 import { setTable, updateTable } from '../../store/actions/actions';
 
 const editCellStyle = {

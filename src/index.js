@@ -16,7 +16,7 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router basename="/labnew">
+        <Router basename="/PanelDemo">
             <App />
         </Router>
     </Provider>

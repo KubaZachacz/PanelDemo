@@ -12,7 +12,7 @@ import TreatmentActionPopup from 'components/Treatments/TreatmentActionPopup/Tre
 import TreatmentForm from 'components/Treatments/TreatmentForm/TreatmentForm'
 import TreatmentHistory from 'components/Treatments/TreatmentHistory/TreatmentHistory'
 import SearchBar from 'containers/SearchBar/SearchBar';
-import { Close, NotificationImportantOutlined, NotificationImportant } from '@material-ui/icons';
+import { Close, NotificationImportant } from '@material-ui/icons';
 import clsx from 'clsx';
 
 import axios from 'axios';
@@ -239,10 +239,6 @@ const TreatmentModal = ({
 
   }
 
-  React.useEffect(() => {
-    console.log()
-  })
-
   const handleTabChange = (e, newValue) => {
     setTabValue(newValue)
   }
@@ -257,7 +253,6 @@ const TreatmentModal = ({
         ClientUID: treatmentFormData.ClientUID || clientUID,
         LoggedUID: treatmentFormData.UserUID,
         TreatmentDate: moment(treatmentFormData.TreatmentDate).format(),
-        // TreatmentDate: moment(treatmentFormData.TreatmentDate).format().slice(0, 16),
         Products: productsData,
       }
       let result = null
@@ -278,7 +273,6 @@ const TreatmentModal = ({
     onClose();
     setCalendarCustomerData({})
     setProductsData([])
-    // clearGlobalProducts([])
   }
 
   const handleCloseModal = () => {
@@ -336,22 +330,10 @@ const TreatmentModal = ({
     setCalendarCustomerData(null)
   }
 
-  const updateHistoryData = async () => {
-    const data = await getData(URL.treatmentHistory + treatmentFormData.ParentUID);
-    data && setHistoryData(data)
-  }
-
-  const updateProductsData = async () => {
-    const data = await getData(URL.doneTreatmentProducts + treatmentFormData.UID);
-    data && setProductsData(data)
-  }
-
   React.useEffect(() => {
     if (open) {
       setTabValue(0);
       updateFormSelects();
-      treatmentFormData.UID && updateProductsData();
-      treatmentFormData.ParentUID && updateHistoryData();
     }
   }, [open])
 
@@ -385,7 +367,6 @@ const TreatmentModal = ({
   }, [open, customerFormData, customerSearchData])
   const WasTreatmentDone = treatmentFormData.WasTreatmentDone === undefined ? false : treatmentFormData.WasTreatmentDone
   const becameTreatmentDone = treatmentFormData.IsTreatmentDone === true && WasTreatmentDone === false
-  console.log(becameTreatmentDone, WasTreatmentDone)
 
   return (
     <Modal onClose={handleClose} aria-labelledby="okno-dodania-nowego-zabiegu" open={open} id="add-treatment-modal">
@@ -399,12 +380,9 @@ const TreatmentModal = ({
             <Box className={clsx(classes.fullWidth, classes.withPadding)}>
               <Tabs value={tabValue} onChange={handleTabChange} aria-label="simple tabs example">
                 <Tab label={<Typography variant="button">{headingText.upper}</Typography>} {...a11yProps(0)} />
-                {/* <Tab label="Produkty" {...a11yProps(1)} /> */}
-
                 <Tab label={<Typography variant="button" component="p" style={{ display: 'flex' }}>Produkty {becameTreatmentDone ? <NotificationImportant color="secondary" /> : null}</Typography>} {...a11yProps(1)} />
-                <Tab label={<Typography variant="button">Historia</Typography>}{...a11yProps(2)} disabled={!treatmentFormData.UID} />
+                <Tab label={<Typography variant="button">Historia</Typography>}{...a11yProps(2)} disabled={true}/>
               </Tabs>
-              {/* <Typography variant="h6" align="left" className={classes.headingTextTop}>{headingText.upper}</Typography> */}
               <Divider />
               <TabPanel value={tabValue} index={0}>
                 {headingText.bottom}

@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
-import { Close, PersonAdd, Person } from '@material-ui/icons';
+import { Close, PersonAdd } from '@material-ui/icons';
 import { ListItemIcon } from '@material-ui/core';
 
 //import './CustomerModal.scss';
@@ -20,14 +20,10 @@ const useStyles = makeStyles(theme => ({
 
 const TreatmentActionPopup = (props) => {
   const { onClose, selectedValue, addNew,openAdded, ...other } = props;
-  const classes = useStyles();
 
   function handleClose() {
     onClose(selectedValue);
   }
-
-  // classes={{ root: classes.dialogTitle }} 
-
   return (
     <Dialog onClose={handleClose} aria-labelledby="okno-wyboru-akcji-po-zapisaniu" {...other}>
       <DialogTitle id="after-save-action"><Typography style={{ whiteSpace: 'pre-line', fontWeight: 700, textAlign: "center", fontSize:'1.2em' }}>{"Zapisano pomyślnie.\nCo zrobić dalej?"}</Typography></DialogTitle>
