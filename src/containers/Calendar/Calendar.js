@@ -6,7 +6,7 @@ import { useTheme } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import eventColor from '@material-ui/core/colors/teal';
 import { Typography, Button, ButtonGroup, Tooltip } from '@material-ui/core';
-import { ChevronLeft, ChevronRight } from '@material-ui/icons';
+import { ChevronLeft, ChevronRight, HelpOutline } from '@material-ui/icons';
 
 import moment from 'moment'
 import 'moment/locale/pl'
@@ -61,6 +61,7 @@ export const views = {
 class CustomToolbar extends React.Component {
   render() {
     let { localizer: { messages }, label } = this.props
+    const helpIconStyle = { color: "#c7c7c7", marginRight: 8 }
     return (
       <>
         <div className="rbc-toolbar">
@@ -70,12 +71,20 @@ class CustomToolbar extends React.Component {
             <Button onClick={this.navigate.bind(null, navigate.NEXT)}><ChevronRight /></Button>
           </ButtonGroup>
           <Typography color="primary" variant="h5" className="rbc-toolbar-label">{label}</Typography>
-          <ButtonGroup color="primary" variant="contained">
-            <Button onClick={this.view.bind(null, views.MONTH)}>{toolbarLang.MONTH}</Button>
-            <Button onClick={this.view.bind(null, views.WEEK)}>{toolbarLang.WEEK}</Button>
-            <Button onClick={this.view.bind(null, views.DAY)}>{toolbarLang.DAY}</Button>
-          </ButtonGroup>
-        </div>
+          <Tooltip title=
+            {<>
+              <Typography variant="subtitle2">Kliknij w wybrany zabieg, żeby go edytować.</Typography>
+              <Typography variant="subtitle2">Kliknij i przeciągnij w miejscu wybranej daty by utworzyć nowy zabieg.</Typography>
+            </>}
+          >
+          <HelpOutline size="small" style={helpIconStyle} />
+          </Tooltip>
+        <ButtonGroup color="primary" variant="contained">
+          <Button onClick={this.view.bind(null, views.MONTH)}>{toolbarLang.MONTH}</Button>
+          <Button onClick={this.view.bind(null, views.WEEK)}>{toolbarLang.WEEK}</Button>
+          <Button onClick={this.view.bind(null, views.DAY)}>{toolbarLang.DAY}</Button>
+        </ButtonGroup>
+      </div>
       </>
     )
   }
@@ -148,9 +157,10 @@ const Calendar = ({ events, updateCalendar, setTreatmentData, updateTreatmentDat
   }
 
   const eventClickHandler = event => {
-    const tempFormData = { ...event, 
-      WasTreatmentDone : event.IsTreatmentDone,
-      WasTreatmentCanceled : event.IsTreatmentCancel,
+    const tempFormData = {
+      ...event,
+      WasTreatmentDone: event.IsTreatmentDone,
+      WasTreatmentCanceled: event.IsTreatmentCancel,
     }
     setTreatmentData(tempFormData);
     setOpen(true);

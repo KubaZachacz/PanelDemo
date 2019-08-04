@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Modal, Paper, Container} from '@material-ui/core';
-//import './CustomModal.scss';
+
 const useStyles = makeStyles(theme => ({
   modalPaper: {
     width: '100%',
